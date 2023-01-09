@@ -28,5 +28,4 @@ jobs:
             cd /home/rycha/nestjs-what-to-watch-api
             git pull origin main
             git status
-            cd /home/rycha/idolity
-            make api
+            docker compose up -d --build api
