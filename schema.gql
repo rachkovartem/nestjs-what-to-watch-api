@@ -1,0 +1,51 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  _id: String!
+  name: String!
+  email: String!
+  password: String!
+  subscriptions: [User!]!
+  subscribers: [User!]!
+}
+
+type UserOmitPassword {
+  _id: String!
+  name: String!
+  email: String!
+  subscriptions: [User!]!
+  subscribers: [User!]!
+}
+
+type PostContent {
+  text: String!
+  images: [String!]!
+  videos: [String!]!
+}
+
+type Post {
+  _id: String!
+  author: User!
+  date: String!
+  likes: [String!]!
+  content: PostContent!
+}
+
+type Query {
+  getSubscriptions: [User!]!
+  getSubscribers: [User!]!
+  login(email: String!, password: String!): UserOmitPassword!
+  profile: User!
+  refresh: String!
+  myPosts: [Post!]!
+}
+
+type Mutation {
+  createSubscription(recipientId: String!): String!
+  createUser(name: String!, email: String!, password: String!): UserOmitPassword!
+  createPost(text: String!, images: [String!]!, videos: [String!]!): Post!
+  likePost(postId: String!): Post!
+  dislikePost(postId: String!): Post!
+}
