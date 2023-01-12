@@ -8,6 +8,7 @@ import { jwtConfig } from '../../config/jwt-config';
 import { JwtAuthGuard } from '../../guards/jwt-auth.guard';
 import { CurrentUser } from '../../utils/decorators/current-user';
 import { JwtRefreshAuthGuard } from '../../guards/jwt-refresh-auth.guard';
+import { boolean } from 'joi';
 
 @Resolver()
 export class AuthResolver {
@@ -81,5 +82,25 @@ export class AuthResolver {
       secure: jwtConfig.secure,
     });
     return 'tokenUpdated';
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Query(() => Boolean)
+  async logout(@Context() ctx) {
+    ctx.res.cookie(jwtConfig.accessTokenName, '', {
+      maxAge: 0,
+      httpOnly: jwtConfig.httpOnly,
+      sameSite: jwtConfig.sameSite,
+      secure: jwtConfig.secure,
+    });
+
+    ctx.res.cookie(jwtConfig.refreshTokenName, '', {
+      maxAge: jwtConfig.refreshAge,
+      httpOnly: jwtConfig.httpOnly,
+      sameSite: jwtConfig.sameSite,
+      secure: jwtConfig.secure,
+    });
+
+    return true;
   }
 }
