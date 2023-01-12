@@ -3,6 +3,7 @@ import { Types } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as Joi from 'joi';
 import i18nMessages from '../../../config/i18n-messages';
+import { Film } from './films.schema';
 
 @Schema({
   validateBeforeSave: true,
@@ -56,6 +57,10 @@ export class User {
   })
   @Field(() => String)
   public password: string;
+
+  @Prop([{ type: Types.Array }])
+  @Field(() => [Film])
+  public films?: [Film];
 
   @Prop([{ type: Types.ObjectId, ref: 'user' }])
   @Field(() => [User])
